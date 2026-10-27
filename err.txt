@@ -1,0 +1,3736 @@
+   Compiling openfab-sdk v0.1.0 (/home/cardinal/projects/hearthlabs/openfab/sdk)
+error[E0432]: unresolved import `reqwest`
+ --> sdk/src/apis/configuration.rs:7:5
+  |
+7 | use reqwest::Method;
+  |     ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+  |
+  = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0432]: unresolved import `reqwest`
+  --> sdk/src/apis/configuration.rs:22:5
+   |
+22 | use reqwest::Client;
+   |     ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+  --> sdk/src/apis/configuration.rs:86:20
+   |
+86 | ...   let body = reqwest::Body::wrap_stream(tokio_util::io::ReaderStream::new(fi...
+   |                  ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+  --> sdk/src/apis/configuration.rs:90:46
+   |
+90 | ....header(reqwest::header::USER_AGENT, user_agent.clone());
+   |            ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+  --> sdk/src/apis/configuration.rs:97:21
+   |
+97 |             .header(reqwest::header::CONTENT_TYPE, content_type)
+   |                     ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+   --> sdk/src/apis/configuration.rs:129:21
+    |
+129 |             client: reqwest::Client::new(),
+    |                     ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+    |
+    = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+   --> sdk/src/apis/configuration.rs:139:21
+    |
+139 |             client: reqwest::Client::new(),
+    |                     ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+    |
+    = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find `fs` in `tokio`
+   --> sdk/src/apis/configuration.rs:51:22
+    |
+ 51 |         file: tokio::fs::File,
+    |                      ^^ could not find `fs` in `tokio`
+    |
+note: found an item that was configured out
+   --> /home/cardinal/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.54.1/src/lib.rs:568:13
+    |
+568 |     pub mod fs;
+    |             ^^
+    |
+   ::: /home/cardinal/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.54.1/src/macros/cfg.rs:132:19
+    |
+132 |             #[cfg(feature = "fs")]
+    |                   -------------- the item is gated behind the `fs` feature
+help: consider importing this module
+    |
+  5 + use std::fs;
+    |
+help: if you import `fs`, refer to it directly
+    |
+ 51 -         file: tokio::fs::File,
+ 51 +         file: fs::File,
+    |
+
+error[E0433]: cannot find `fs` in `tokio`
+   --> sdk/src/files.rs:85:34
+    |
+ 85 |         if let Ok(file) = tokio::fs::File::open(file).await {
+    |                                  ^^ could not find `fs` in `tokio`
+    |
+note: found an item that was configured out
+   --> /home/cardinal/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.54.1/src/lib.rs:568:13
+    |
+568 |     pub mod fs;
+    |             ^^
+    |
+   ::: /home/cardinal/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.54.1/src/macros/cfg.rs:132:19
+    |
+132 |             #[cfg(feature = "fs")]
+    |                   -------------- the item is gated behind the `fs` feature
+help: consider importing this struct
+    |
+  1 + use std::fs::File;
+    |
+help: if you import `File`, refer to it directly
+    |
+ 85 -         if let Ok(file) = tokio::fs::File::open(file).await {
+ 85 +         if let Ok(file) = File::open(file).await {
+    |
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/devices_api.rs:129:27
+    |
+129 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+    = note: `#[warn(method_call_on_diverging_infer_var)]` (part of `#[warn(future_incompatible)]`) on by default
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:129:27
+    |
+129 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:131:14
+    |
+130 |           let content_type = resp
+    |  ____________________________-
+131 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:131:14
+    |
+130 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+131 |             .headers()
+    |              ^^^^^^^ unreachable call
+    |
+    = note: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:138:32
+    |
+138 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:138:32
+    |
+138 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:138:17
+    |
+138 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:138:27
+    |
+138 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:138:44
+    |
+138 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:138:27
+    |
+138 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:145:32
+    |
+145 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:145:32
+    |
+145 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:145:17
+    |
+145 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:145:27
+    |
+145 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:145:44
+    |
+145 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:145:27
+    |
+145 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/devices_api.rs:149:17
+    |
+149 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+149 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/devices_api.rs:176:27
+    |
+176 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:176:27
+    |
+176 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:178:14
+    |
+177 |           let content_type = resp
+    |  ____________________________-
+178 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:178:14
+    |
+177 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+178 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:185:32
+    |
+185 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:185:32
+    |
+185 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:185:17
+    |
+185 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:185:27
+    |
+185 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:185:44
+    |
+185 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:185:27
+    |
+185 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:192:32
+    |
+192 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:192:32
+    |
+192 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:192:17
+    |
+192 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:192:27
+    |
+192 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:192:44
+    |
+192 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:192:27
+    |
+192 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/devices_api.rs:196:17
+    |
+196 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+196 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/devices_api.rs:223:27
+    |
+223 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:223:27
+    |
+223 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:225:14
+    |
+224 |           let content_type = resp
+    |  ____________________________-
+225 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:225:14
+    |
+224 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+225 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:232:32
+    |
+232 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:232:32
+    |
+232 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:232:17
+    |
+232 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:232:27
+    |
+232 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:232:44
+    |
+232 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:232:27
+    |
+232 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:239:32
+    |
+239 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:239:32
+    |
+239 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:239:17
+    |
+239 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:239:27
+    |
+239 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:239:44
+    |
+239 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:239:27
+    |
+239 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/devices_api.rs:243:17
+    |
+243 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+243 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/devices_api.rs:273:27
+    |
+273 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:273:27
+    |
+273 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:275:14
+    |
+274 |           let content_type = resp
+    |  ____________________________-
+275 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:275:14
+    |
+274 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+275 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:282:32
+    |
+282 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:282:32
+    |
+282 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:282:17
+    |
+282 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:282:27
+    |
+282 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:282:44
+    |
+282 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:282:27
+    |
+282 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:289:32
+    |
+289 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:289:32
+    |
+289 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:289:17
+    |
+289 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:289:27
+    |
+289 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:289:44
+    |
+289 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:289:27
+    |
+289 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/devices_api.rs:293:17
+    |
+293 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+293 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/devices_api.rs:319:27
+    |
+319 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:319:27
+    |
+319 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:321:14
+    |
+320 |           let content_type = resp
+    |  ____________________________-
+321 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:321:14
+    |
+320 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+321 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:328:32
+    |
+328 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:328:32
+    |
+328 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:328:17
+    |
+328 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:328:27
+    |
+328 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:328:44
+    |
+328 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:328:27
+    |
+328 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:335:32
+    |
+335 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:335:32
+    |
+335 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:335:17
+    |
+335 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:335:27
+    |
+335 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:335:44
+    |
+335 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:335:27
+    |
+335 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/devices_api.rs:339:17
+    |
+339 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+339 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/devices_api.rs:368:27
+    |
+368 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:368:27
+    |
+368 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:370:14
+    |
+369 |           let content_type = resp
+    |  ____________________________-
+370 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:370:14
+    |
+369 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+370 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:377:32
+    |
+377 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:377:32
+    |
+377 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:377:17
+    |
+377 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:377:27
+    |
+377 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:377:44
+    |
+377 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:377:27
+    |
+377 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:384:32
+    |
+384 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:384:32
+    |
+384 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:384:17
+    |
+384 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:384:27
+    |
+384 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:384:44
+    |
+384 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:384:27
+    |
+384 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/devices_api.rs:388:17
+    |
+388 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+388 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/devices_api.rs:415:27
+    |
+415 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:415:27
+    |
+415 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:417:14
+    |
+416 |           let content_type = resp
+    |  ____________________________-
+417 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:417:14
+    |
+416 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+417 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:424:32
+    |
+424 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:424:32
+    |
+424 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:424:17
+    |
+424 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:424:27
+    |
+424 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:424:44
+    |
+424 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:424:27
+    |
+424 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/devices_api.rs:431:32
+    |
+431 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/devices_api.rs:431:32
+    |
+431 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:431:17
+    |
+431 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:431:27
+    |
+431 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:431:44
+    |
+431 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/devices_api.rs:431:27
+    |
+431 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/devices_api.rs:435:17
+    |
+435 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+435 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+  --> sdk/src/apis/library_api.rs:43:27
+   |
+43 |         let status = resp.status();
+   |                           ^^^^^^
+   |
+   = help: consider providing a type annotation
+   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+   = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:43:27
+   |
+43 |         let status = resp.status();
+   |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:45:14
+   |
+44 |           let content_type = resp
+   |  ____________________________-
+45 | |             .headers()
+   | |             -^^^^^^^ method not found in `!`
+   | |_____________|
+   |
+
+warning: unreachable call
+  --> sdk/src/apis/library_api.rs:45:14
+   |
+44 |         let content_type = resp
+   |                            ---- any code following this expression is unreachable
+45 |             .headers()
+   |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:52:32
+   |
+52 |             let content = resp.text().await?;
+   |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+  --> sdk/src/apis/library_api.rs:52:32
+   |
+52 |             let content = resp.text().await?;
+   |                           ---- ^^^^ unreachable call
+   |                           |
+   |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:52:17
+   |
+52 |             let content = resp.text().await?;
+   |                 ^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+   = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:52:27
+   |
+52 |             let content = resp.text().await?;
+   |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+   = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:52:44
+   |
+52 |             let content = resp.text().await?;
+   |                                            ^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:52:27
+   |
+52 |             let content = resp.text().await?;
+   |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:59:32
+   |
+59 |             let content = resp.text().await?;
+   |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+  --> sdk/src/apis/library_api.rs:59:32
+   |
+59 |             let content = resp.text().await?;
+   |                           ---- ^^^^ unreachable call
+   |                           |
+   |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+  --> sdk/src/apis/library_api.rs:83:27
+   |
+83 |         let status = resp.status();
+   |                           ^^^^^^
+   |
+   = help: consider providing a type annotation
+   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+   = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:83:27
+   |
+83 |         let status = resp.status();
+   |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:85:14
+   |
+84 |           let content_type = resp
+   |  ____________________________-
+85 | |             .headers()
+   | |             -^^^^^^^ method not found in `!`
+   | |_____________|
+   |
+
+warning: unreachable call
+  --> sdk/src/apis/library_api.rs:85:14
+   |
+84 |         let content_type = resp
+   |                            ---- any code following this expression is unreachable
+85 |             .headers()
+   |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:92:32
+   |
+92 |             let content = resp.text().await?;
+   |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+  --> sdk/src/apis/library_api.rs:92:32
+   |
+92 |             let content = resp.text().await?;
+   |                           ---- ^^^^ unreachable call
+   |                           |
+   |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:92:17
+   |
+92 |             let content = resp.text().await?;
+   |                 ^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+   = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:92:27
+   |
+92 |             let content = resp.text().await?;
+   |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+   = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:92:44
+   |
+92 |             let content = resp.text().await?;
+   |                                            ^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/library_api.rs:92:27
+   |
+92 |             let content = resp.text().await?;
+   |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+  --> sdk/src/apis/library_api.rs:99:32
+   |
+99 |             let content = resp.text().await?;
+   |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+  --> sdk/src/apis/library_api.rs:99:32
+   |
+99 |             let content = resp.text().await?;
+   |                           ---- ^^^^ unreachable call
+   |                           |
+   |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/library_api.rs:128:27
+    |
+128 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:128:27
+    |
+128 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:130:14
+    |
+129 |           let content_type = resp
+    |  ____________________________-
+130 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:130:14
+    |
+129 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+130 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:137:32
+    |
+137 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:137:32
+    |
+137 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:137:17
+    |
+137 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:137:27
+    |
+137 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:137:44
+    |
+137 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:137:27
+    |
+137 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:144:32
+    |
+144 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:144:32
+    |
+144 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/library_api.rs:173:27
+    |
+173 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:173:27
+    |
+173 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:175:14
+    |
+174 |           let content_type = resp
+    |  ____________________________-
+175 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:175:14
+    |
+174 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+175 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:182:32
+    |
+182 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:182:32
+    |
+182 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:182:17
+    |
+182 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:182:27
+    |
+182 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:182:44
+    |
+182 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:182:27
+    |
+182 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:189:32
+    |
+189 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:189:32
+    |
+189 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/library_api.rs:218:27
+    |
+218 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:218:27
+    |
+218 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:220:14
+    |
+219 |           let content_type = resp
+    |  ____________________________-
+220 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:220:14
+    |
+219 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+220 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:227:32
+    |
+227 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:227:32
+    |
+227 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:227:17
+    |
+227 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:227:27
+    |
+227 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:227:44
+    |
+227 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:227:27
+    |
+227 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:234:32
+    |
+234 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:234:32
+    |
+234 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/library_api.rs:271:27
+    |
+271 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:271:27
+    |
+271 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:273:14
+    |
+272 |           let content_type = resp
+    |  ____________________________-
+273 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:273:14
+    |
+272 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+273 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:280:32
+    |
+280 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:280:32
+    |
+280 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:280:17
+    |
+280 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:280:27
+    |
+280 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:280:44
+    |
+280 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:280:27
+    |
+280 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:287:32
+    |
+287 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:287:32
+    |
+287 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/library_api.rs:310:27
+    |
+310 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:310:27
+    |
+310 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:312:14
+    |
+311 |           let content_type = resp
+    |  ____________________________-
+312 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:312:14
+    |
+311 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+312 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:319:32
+    |
+319 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:319:32
+    |
+319 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:319:17
+    |
+319 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:319:27
+    |
+319 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:319:44
+    |
+319 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:319:27
+    |
+319 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:326:32
+    |
+326 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:326:32
+    |
+326 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/library_api.rs:355:27
+    |
+355 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:355:27
+    |
+355 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:357:14
+    |
+356 |           let content_type = resp
+    |  ____________________________-
+357 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:357:14
+    |
+356 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+357 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:364:32
+    |
+364 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:364:32
+    |
+364 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:364:17
+    |
+364 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:364:27
+    |
+364 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:364:44
+    |
+364 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/library_api.rs:364:27
+    |
+364 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/library_api.rs:371:32
+    |
+371 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/library_api.rs:371:32
+    |
+371 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:143:27
+    |
+143 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:143:27
+    |
+143 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:145:14
+    |
+144 |           let content_type = resp
+    |  ____________________________-
+145 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:145:14
+    |
+144 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+145 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:152:32
+    |
+152 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:152:32
+    |
+152 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:152:17
+    |
+152 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:152:27
+    |
+152 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:152:44
+    |
+152 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:152:27
+    |
+152 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:159:32
+    |
+159 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:159:32
+    |
+159 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:159:17
+    |
+159 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:159:27
+    |
+159 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:159:44
+    |
+159 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:159:27
+    |
+159 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:163:17
+    |
+163 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+163 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:193:27
+    |
+193 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:193:27
+    |
+193 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:195:14
+    |
+194 |           let content_type = resp
+    |  ____________________________-
+195 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:195:14
+    |
+194 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+195 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:202:32
+    |
+202 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:202:32
+    |
+202 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:202:17
+    |
+202 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:202:27
+    |
+202 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:202:44
+    |
+202 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:202:27
+    |
+202 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:209:32
+    |
+209 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:209:32
+    |
+209 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:209:17
+    |
+209 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:209:27
+    |
+209 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:209:44
+    |
+209 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:209:27
+    |
+209 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:213:17
+    |
+213 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+213 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:241:27
+    |
+241 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:241:27
+    |
+241 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:243:14
+    |
+242 |           let content_type = resp
+    |  ____________________________-
+243 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:243:14
+    |
+242 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+243 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:250:32
+    |
+250 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:250:32
+    |
+250 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:250:17
+    |
+250 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:250:27
+    |
+250 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:250:44
+    |
+250 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:250:27
+    |
+250 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:257:32
+    |
+257 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:257:32
+    |
+257 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:257:17
+    |
+257 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:257:27
+    |
+257 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:257:44
+    |
+257 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:257:27
+    |
+257 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:261:17
+    |
+261 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+261 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:291:27
+    |
+291 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:291:27
+    |
+291 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:293:14
+    |
+292 |           let content_type = resp
+    |  ____________________________-
+293 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:293:14
+    |
+292 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+293 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:300:32
+    |
+300 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:300:32
+    |
+300 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:300:17
+    |
+300 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:300:27
+    |
+300 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:300:44
+    |
+300 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:300:27
+    |
+300 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:307:32
+    |
+307 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:307:32
+    |
+307 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:307:17
+    |
+307 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:307:27
+    |
+307 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:307:44
+    |
+307 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:307:27
+    |
+307 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:311:17
+    |
+311 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+311 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:341:27
+    |
+341 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:341:27
+    |
+341 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:343:14
+    |
+342 |           let content_type = resp
+    |  ____________________________-
+343 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:343:14
+    |
+342 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+343 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:350:32
+    |
+350 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:350:32
+    |
+350 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:350:17
+    |
+350 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:350:27
+    |
+350 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:350:44
+    |
+350 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:350:27
+    |
+350 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:357:32
+    |
+357 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:357:32
+    |
+357 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:357:17
+    |
+357 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:357:27
+    |
+357 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:357:44
+    |
+357 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:357:27
+    |
+357 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:361:17
+    |
+361 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+361 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:389:27
+    |
+389 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:389:27
+    |
+389 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:394:32
+    |
+394 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:394:32
+    |
+394 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:394:17
+    |
+394 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:394:27
+    |
+394 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:394:44
+    |
+394 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:394:27
+    |
+394 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:398:17
+    |
+398 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+398 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:426:27
+    |
+426 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:426:27
+    |
+426 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:431:32
+    |
+431 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:431:32
+    |
+431 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:431:17
+    |
+431 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:431:27
+    |
+431 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:431:44
+    |
+431 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:431:27
+    |
+431 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:435:17
+    |
+435 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+435 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:470:27
+    |
+470 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:470:27
+    |
+470 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:472:14
+    |
+471 |           let content_type = resp
+    |  ____________________________-
+472 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:472:14
+    |
+471 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+472 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:479:32
+    |
+479 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:479:32
+    |
+479 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:479:17
+    |
+479 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:479:27
+    |
+479 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:479:44
+    |
+479 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:479:27
+    |
+479 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:486:32
+    |
+486 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:486:32
+    |
+486 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:486:17
+    |
+486 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:486:27
+    |
+486 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:486:44
+    |
+486 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:486:27
+    |
+486 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:490:17
+    |
+490 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+490 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/prints_api.rs:521:27
+    |
+521 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:521:27
+    |
+521 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:523:14
+    |
+522 |           let content_type = resp
+    |  ____________________________-
+523 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:523:14
+    |
+522 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+523 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:530:32
+    |
+530 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:530:32
+    |
+530 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:530:17
+    |
+530 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:530:27
+    |
+530 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:530:44
+    |
+530 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:530:27
+    |
+530 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/prints_api.rs:537:32
+    |
+537 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/prints_api.rs:537:32
+    |
+537 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:537:17
+    |
+537 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:537:27
+    |
+537 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:537:44
+    |
+537 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/prints_api.rs:537:27
+    |
+537 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/prints_api.rs:541:17
+    |
+541 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+541 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+  --> sdk/src/apis/queues_api.rs:84:27
+   |
+84 |         let status = resp.status();
+   |                           ^^^^^^
+   |
+   = help: consider providing a type annotation
+   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+   = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+  --> sdk/src/apis/queues_api.rs:84:27
+   |
+84 |         let status = resp.status();
+   |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+  --> sdk/src/apis/queues_api.rs:86:14
+   |
+85 |           let content_type = resp
+   |  ____________________________-
+86 | |             .headers()
+   | |             -^^^^^^^ method not found in `!`
+   | |_____________|
+   |
+
+warning: unreachable call
+  --> sdk/src/apis/queues_api.rs:86:14
+   |
+85 |         let content_type = resp
+   |                            ---- any code following this expression is unreachable
+86 |             .headers()
+   |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+  --> sdk/src/apis/queues_api.rs:93:32
+   |
+93 |             let content = resp.text().await?;
+   |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+  --> sdk/src/apis/queues_api.rs:93:32
+   |
+93 |             let content = resp.text().await?;
+   |                           ---- ^^^^ unreachable call
+   |                           |
+   |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/queues_api.rs:93:17
+   |
+93 |             let content = resp.text().await?;
+   |                 ^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+   = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/queues_api.rs:93:27
+   |
+93 |             let content = resp.text().await?;
+   |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+   = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/queues_api.rs:93:44
+   |
+93 |             let content = resp.text().await?;
+   |                                            ^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+  --> sdk/src/apis/queues_api.rs:93:27
+   |
+93 |             let content = resp.text().await?;
+   |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+   |
+   = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:100:32
+    |
+100 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/queues_api.rs:100:32
+    |
+100 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:100:17
+    |
+100 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:100:27
+    |
+100 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:100:44
+    |
+100 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:100:27
+    |
+100 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/queues_api.rs:104:17
+    |
+104 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+104 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/queues_api.rs:125:27
+    |
+125 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:125:27
+    |
+125 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:127:14
+    |
+126 |           let content_type = resp
+    |  ____________________________-
+127 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/queues_api.rs:127:14
+    |
+126 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+127 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:134:32
+    |
+134 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/queues_api.rs:134:32
+    |
+134 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:134:17
+    |
+134 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:134:27
+    |
+134 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:134:44
+    |
+134 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:134:27
+    |
+134 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:141:32
+    |
+141 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/queues_api.rs:141:32
+    |
+141 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:141:17
+    |
+141 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:141:27
+    |
+141 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:141:44
+    |
+141 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:141:27
+    |
+141 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/queues_api.rs:145:17
+    |
+145 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+145 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/queues_api.rs:176:27
+    |
+176 |         let status = resp.status();
+    |                           ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:176:27
+    |
+176 |         let status = resp.status();
+    |                           ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `headers` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:178:14
+    |
+177 |           let content_type = resp
+    |  ____________________________-
+178 | |             .headers()
+    | |             -^^^^^^^ method not found in `!`
+    | |_____________|
+    |
+
+warning: unreachable call
+   --> sdk/src/apis/queues_api.rs:178:14
+    |
+177 |         let content_type = resp
+    |                            ---- any code following this expression is unreachable
+178 |             .headers()
+    |              ^^^^^^^ unreachable call
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:185:32
+    |
+185 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/queues_api.rs:185:32
+    |
+185 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:185:17
+    |
+185 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:185:27
+    |
+185 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:185:44
+    |
+185 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:185:27
+    |
+185 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/queues_api.rs:192:32
+    |
+192 |             let content = resp.text().await?;
+    |                                ^^^^ method not found in `!`
+
+warning: unreachable call
+   --> sdk/src/apis/queues_api.rs:192:32
+    |
+192 |             let content = resp.text().await?;
+    |                           ---- ^^^^ unreachable call
+    |                           |
+    |                           any code following this expression is unreachable
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:192:17
+    |
+192 |             let content = resp.text().await?;
+    |                 ^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:192:27
+    |
+192 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+    = note: all local variables must have a statically known size
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:192:44
+    |
+192 |             let content = resp.text().await?;
+    |                                            ^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> sdk/src/apis/queues_api.rs:192:27
+    |
+192 |             let content = resp.text().await?;
+    |                           ^^^^^^^^^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by an implicit `Sized` bound in `ControlFlow`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/ops/control_flow.rs:89:0
+
+error[E0308]: mismatched types
+   --> sdk/src/apis/queues_api.rs:196:17
+    |
+196 |                 content,
+    |                 ^^^^^^^ expected `String`, found `str`
+    |
+help: try using a conversion method
+    |
+196 |                 content: content.to_string(),
+    |                 ++++++++        ++++++++++++
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/configuration.rs:103:22
+    |
+103 |         if !response.status().is_success() {
+    |                      ^^^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/configuration.rs:103:22
+    |
+103 |         if !response.status().is_success() {
+    |                      ^^^^^^ method not found in `!`
+
+error[E0599]: no method named `status` found for type `!` in the current scope
+   --> sdk/src/apis/configuration.rs:104:35
+    |
+104 |             let status = response.status();
+    |                                   ^^^^^^ method not found in `!`
+
+error: unreachable call
+   --> sdk/src/apis/configuration.rs:104:35
+    |
+104 |             let status = response.status();
+    |                          -------- ^^^^^^ unreachable call
+    |                          |
+    |                          any code following this expression is unreachable
+    |
+note: the lint level is defined here
+   --> sdk/src/apis/configuration.rs:2:9
+    |
+  2 | #![deny(unused)]
+    |         ^^^^^^
+    = note: `#[deny(unreachable_code)]` implied by `#[deny(unused)]`
+
+error[E0599]: no method named `text` found for type `!` in the current scope
+   --> sdk/src/apis/configuration.rs:105:39
+    |
+105 |             let error_text = response.text().await.unwrap_or_default();
+    |                                       ^^^^ method not found in `!`
+
+error: unreachable call
+   --> sdk/src/apis/configuration.rs:105:39
+    |
+105 |             let error_text = response.text().await.unwrap_or_default();
+    |                              -------- ^^^^ unreachable call
+    |                              |
+    |                              any code following this expression is unreachable
+
+error[E0599]: no method named `json` found for type `!` in the current scope
+   --> sdk/src/apis/configuration.rs:110:29
+    |
+110 |         let data = response.json::<T>().await?;
+    |                             ^^^^ method not found in `!`
+
+error: unreachable call
+   --> sdk/src/apis/configuration.rs:110:29
+    |
+110 |         let data = response.json::<T>().await?;
+    |                    -------- ^^^^ unreachable call
+    |                    |
+    |                    any code following this expression is unreachable
+
+warning: method call on a diverging inference variable
+   --> sdk/src/apis/configuration.rs:151:77
+    |
+151 | ...OST, url).json(&form).send().await?.json().await?)
+    |                                        ^^^^
+    |
+    = help: consider providing a type annotation
+    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+    = note: for more information, see issue #156047 <https://github.com/rust-lang/rust/issues/156047>
+
+error[E0599]: no method named `json` found for type `_` in the current scope
+   --> sdk/src/apis/configuration.rs:151:77
+    |
+151 | ...on(&form).send().await?.json().await?)
+    |                            ^^^^ method not found in `_`
+
+warning: unused variable: `val`
+   --> sdk/src/files.rs:111:24
+    |
+111 |                     Ok(val) => self.detect_for_buffer(extension, &contents),
+    |                        ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+ --> sdk/src/apis/mod.rs:6:17
+  |
+6 |     pub status: reqwest::StatusCode,
+  |                 ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+  |
+  = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+  --> sdk/src/apis/mod.rs:13:13
+   |
+13 |     Reqwest(reqwest::Error),
+   |             ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+  --> sdk/src/apis/mod.rs:42:14
+   |
+42 | impl<T> From<reqwest::Error> for Error<T> {
+   |              ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+  --> sdk/src/apis/mod.rs:43:16
+   |
+43 |     fn from(e: reqwest::Error) -> Self {
+   |                ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+ --> sdk/src/errors.rs:6:26
+  |
+6 |     RequestError(#[from] reqwest::Error),
+  |                          ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+  |
+  = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+Some errors have detailed explanations: E0277, E0308, E0432, E0433, E0599.
+For more information about an error, try `rustc --explain E0277`.
+warning: `openfab-sdk` (lib) generated 107 warnings
+error: could not compile `openfab-sdk` (lib) due to 321 previous errors; 136 warnings emitted
