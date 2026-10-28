@@ -10,6 +10,9 @@ pub use library::*;
 mod auth;
 pub use auth::*;
 
+mod pricing;
+pub use pricing::*;
+
 pub mod error_response;
 pub use error_response::*;
 

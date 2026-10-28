@@ -1,8 +1,7 @@
-
-use serde::{Serialize, Deserialize};
-use uuid::Uuid;
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
+use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]

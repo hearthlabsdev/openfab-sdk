@@ -11,7 +11,7 @@
 use super::{configuration::Configuration, ContentType, Error};
 use crate::{apis::ResponseContent, models};
 use reqwest;
-use reqwest::{Method, header};
+use reqwest::{header, Method};
 use serde::{de::Error as _, Deserialize, Serialize};
 
 /// struct for typed errors of method [`list_prints`]

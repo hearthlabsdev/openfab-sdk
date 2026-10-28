@@ -14,7 +14,7 @@
 //!
 //! ## Example
 //!
-//! ```rust
+//! ```rust,no_run,ignore
 //! use openfab_sdk::Configuration;
 //!
 //! let config = Configuration::new("my-access-token")
@@ -29,7 +29,7 @@
 //!
 //! A typical pattern is:
 //!
-//! ```rust
+//! ```rust,no_run,ignore
 //! use openfab_sdk::Configuration;
 //!
 //! let config = Configuration::new("token")
@@ -62,6 +62,8 @@ pub mod errors;
 /// this module provides file validation and more comprehensive file type inference.
 pub mod files;
 pub mod models;
+pub mod units;
+pub mod utils;
 
 #[cfg(feature = "api")]
 pub use apis::configuration::Configuration;

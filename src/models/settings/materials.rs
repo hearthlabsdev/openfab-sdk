@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[cfg(feature = "fromform")]
@@ -6,7 +6,6 @@ use rocket::FromForm;
 
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "fromform", derive(FromForm))]

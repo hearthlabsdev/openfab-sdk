@@ -1,6 +1,6 @@
-use openfab_sdk::{errors::SDKError, files::FileTypeChecker};
 #[cfg(feature = "api")]
 use openfab_sdk::Configuration;
+use openfab_sdk::{errors::SDKError, files::FileTypeChecker};
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -84,10 +84,17 @@ impl Cli {
                     self.file.clone(),
                 )
                 .await?;
-            },
+            }
             Command::Delete { model } => {
-                Command::delete(&model, config, self.id.clone().ok_or(SDKError::MissingArgument("id".into()))?).await?;
-            },
+                Command::delete(
+                    &model,
+                    config,
+                    self.id
+                        .clone()
+                        .ok_or(SDKError::MissingArgument("id".into()))?,
+                )
+                .await?;
+            }
             _ => unimplemented!(),
         }
         Ok(())
@@ -217,11 +224,16 @@ impl Command {
         match model {
             ResourceModel::Assets => {
                 let path = file.ok_or(SDKError::MissingArgument("file".into()))?;
-                let mime_type = file_checker.detect_for_file(&path).await.expect("failed to get file info").mime;
-                let file = tokio::fs::File::open(path)
-                        .await?;
+                let mime_type = file_checker
+                    .detect_for_file(&path)
+                    .await
+                    .expect("failed to get file info")
+                    .mime;
+                let file = tokio::fs::File::open(path).await?;
                 let asset = serde_json::from_str(&body).expect("failed to deserialize asset");
-                let resp = config.create_asset(&asset, file, mime_type.to_string()).await?;
+                let resp = config
+                    .create_asset(&asset, file, mime_type.to_string())
+                    .await?;
                 println!(
                     "{}",
                     serde_json::to_string_pretty(&resp).expect("failed to deserialize response")
@@ -232,7 +244,11 @@ impl Command {
         Ok(())
     }
     #[cfg(feature = "api")]
-    pub async fn delete(model: &ResourceModel, config: Configuration, id: String) -> Result<(), SDKError> {
+    pub async fn delete(
+        model: &ResourceModel,
+        config: Configuration,
+        id: String,
+    ) -> Result<(), SDKError> {
         match model {
             ResourceModel::Assets => {
                 let resp = config.delete_asset(&id).await?;
@@ -240,7 +256,7 @@ impl Command {
                     "{}",
                     serde_json::to_string_pretty(&resp).expect("failed to deserialize response")
                 );
-            },
+            }
             _ => unimplemented!(),
         }
         Ok(())
@@ -320,8 +336,7 @@ async fn main() {
     let configuration = Configuration::new(&cli.api_key)
         .host(&cli.host)
         .user_agent(&cli.user_agent);
-    
-    
+
     cli.process(configuration)
         .await
         .expect("command processing failed");

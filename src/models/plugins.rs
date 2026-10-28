@@ -1,6 +1,6 @@
 //! This module declares the models used to handle plugin orchestration.
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
@@ -22,5 +22,4 @@ pub struct PluginProfile {
 pub struct Plugin {
     pub profile: PluginProfile,
     pub name: String,
-    
 }

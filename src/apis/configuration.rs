@@ -3,7 +3,7 @@
 //! Primary API End Point utility configuration.
 
 use crate::models::UploadObject;
-use crate::models::{LoginInfo, ApiKeyInfo};
+use crate::models::{ApiKeyInfo, LoginInfo};
 use reqwest::Method;
 use serde::de::DeserializeOwned;
 use tokio::io::AsyncRead;
@@ -140,15 +140,26 @@ impl Configuration {
             bearer_access_token: None,
         }
     }
-    
+
     /// submits a login request returning the API key
-    pub async fn login(&self, email: &str, password: &str) -> Result<ApiKeyInfo, crate::errors::SDKError> {
+    pub async fn login(
+        &self,
+        email: &str,
+        password: &str,
+    ) -> Result<ApiKeyInfo, crate::errors::SDKError> {
         let form = LoginInfo {
             email: email.into(),
             password: password.into(),
         };
         let url = format!("{}/api/login", self.base_path);
-        Ok(self.client.request(Method::POST, url).json(&form).send().await?.json().await?)
+        Ok(self
+            .client
+            .request(Method::POST, url)
+            .json(&form)
+            .send()
+            .await?
+            .json()
+            .await?)
     }
 
     /// Sets a custom base_path string for this configuration.

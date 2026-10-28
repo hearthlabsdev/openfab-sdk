@@ -4,11 +4,11 @@ use tokio::io::{AsyncRead, AsyncReadExt, AsyncSeek, AsyncSeekExt};
 
 impl From<infer::Type> for FormatInfo {
     fn from(infer: infer::Type) -> FormatInfo {
-        FormatInfo{
+        FormatInfo {
             magic: None,
-        extension: infer.extension(),
-        mime: infer.mime_type(),
-        requires_validation: false,
+            extension: infer.extension(),
+            mime: infer.mime_type(),
+            requires_validation: false,
         }
     }
 }
@@ -82,13 +82,15 @@ impl FileTypeChecker {
 
     #[cfg(feature = "fs")]
     pub async fn detect_for_file(&self, file: &Path) -> Option<FormatInfo> {
-        let extension: Option<&str> = file.extension().map(|v| v.to_str().expect("failed to convert string types"));
+        let extension: Option<&str> = file
+            .extension()
+            .map(|v| v.to_str().expect("failed to convert string types"));
         if let Ok(file) = tokio::fs::File::open(file).await {
             self.detect_for_async_reader(extension, file).await
         } else {
             #[cfg(debug_assertions)]
             eprintln!("failed to open file");
-            
+
             None
         }
     }

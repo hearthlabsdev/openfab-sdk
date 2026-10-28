@@ -14,7 +14,7 @@ use crate::models;
 use crate::models::CreateAsset;
 use crate::models::UploadObject;
 use reqwest;
-use reqwest::{Method, header};
+use reqwest::{header, Method};
 use serde::{de::Error as _, Deserialize, Serialize};
 use tokio::io::AsyncRead;
 

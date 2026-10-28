@@ -26,6 +26,7 @@ infer = "0.22.0"
 rocket = { version = "0.5.1", features = ["uuid"], optional = true }
 json = "0.12.4"
 reqwest = { version = "0.13.5", features = ["stream", "query"], optional = true }
+uom = "0.38.0"
 
 [features]
 schema = ["dep:rocket_okapi", "dep:okapi", "dep:schemars"]

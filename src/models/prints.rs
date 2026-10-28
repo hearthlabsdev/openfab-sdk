@@ -9,9 +9,9 @@
  */
 
 use crate::models;
-use serde::{Deserialize, Serialize};
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
@@ -26,28 +26,28 @@ impl PrintCommandResponse {
         Self {
             command: "start".into(),
             state: "printing".into(),
-            instance: None, 
+            instance: None,
         }
     }
     pub fn stop() -> Self {
         Self {
             command: "stop".into(),
             state: "stopped".into(),
-            instance: None, 
+            instance: None,
         }
     }
     pub fn pause() -> Self {
         Self {
             command: "pause".into(),
             state: "paused".into(),
-            instance: None, 
+            instance: None,
         }
     }
     pub fn resume() -> Self {
         Self {
             command: "resume".into(),
             state: "printing".into(),
-            instance: None, 
+            instance: None,
         }
     }
     pub fn instance(mut self, instance: PrintJobInstance) -> Self {
