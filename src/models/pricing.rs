@@ -93,8 +93,8 @@ pub struct PricingProfile {
     weight_unit: Option<WeightUnit>,
 
     /// price per count of something
-    per_count: Option<f64>,
-    count_unit: Option<String>,
+    pub per_count: Option<f64>,
+    pub count_name: Option<String>,
 
     pub created_at: i64,
     /// intra and inter profile reconiliation strategy, uses the most specific reconciliation in the hierarchy.
@@ -127,7 +127,7 @@ impl PricingProfile {
             per_kg: None,
             weight_unit: None,
             per_count: None,
-            count_unit: None,
+            count_name: None,
             created_at,
             reconciliation,
         }
@@ -135,6 +135,10 @@ impl PricingProfile {
 
     pub fn get_time_unit(&self) -> Option<TimeUnit> {
         self.time_unit
+    }
+
+    pub fn get_count_name(&self) -> Option<String> {
+        self.count_name.clone()
     }
 
     pub fn get_length_unit(&self) -> Option<LengthUnit> {
@@ -187,7 +191,6 @@ impl PricingProfile {
         let unit = self.time_unit?;
         self.get_time_as(unit)
     }
-
 
     pub fn get_volume_as(&self, unit: VolumeUnit) -> Option<f64> {
         let base_rate = self.per_liter?;
@@ -371,8 +374,9 @@ pub struct CreatePricingProfile {
     power_unit: Option<PowerUnit>,
 
     /// price per count of something
-    per_count: Option<f64>,
-    count_unit: Option<String>,
+    /// same to expose as public bc no unit conversions
+    pub per_count: Option<f64>,
+    pub count_name: Option<String>,
 
     /// intra and inter profile reconiliation strategy, uses the most specific reconciliation in the hierarchy.
     pub reconciliation: Reconciliation,
@@ -395,7 +399,7 @@ impl CreatePricingProfile {
             per_kg: None,
             weight_unit: None,
             per_count: None,
-            count_unit: None,
+            count_name: None,
             per_watt: None,
             power_unit: None,
             reconciliation: Reconciliation::Additive, // sensible default
@@ -700,7 +704,7 @@ impl CreatePricingProfile {
 
             /// price per count of something
             per_count: self.per_count,
-            count_unit: self.count_unit,
+            count_name: self.count_name,
 
             created_at: unix_epoch_seconds(),
             /// intra and inter profile reconiliation strategy, uses the most specific reconciliation in the hierarchy.
@@ -767,7 +771,7 @@ mod tests {
             per_kg: None,
             weight_unit: None,
             per_count: None,
-            count_unit: None,
+            count_name: None,
             created_at: 0,
             reconciliation: Reconciliation::Additive,
         };
