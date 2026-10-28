@@ -71,7 +71,7 @@ pub struct PricingProfile {
     pub name: String,
 
     /// base charge per print.
-    base: f64,
+    pub base: f64,
 
     /// price per base unit time.
     per_sec: Option<f64>,
@@ -209,6 +209,21 @@ impl PricingProfile {
     // LENGTH (Canonical Base: Meters)
     // ==========================================
 
+    // ==========================================
+    // VOLUME (Canonical Base: Liters)
+    // ==========================================
+    pub fn set_volume(&mut self, rate: f64, unit: VolumeUnit) {
+        let canonical = match unit {
+            VolumeUnit::Milliliter => {
+                Volume::new::<uom::si::volume::milliliter>(1.0).get::<uom::si::volume::liter>()
+            }
+            VolumeUnit::Liter => {
+                Volume::new::<uom::si::volume::liter>(1.0).get::<uom::si::volume::liter>()
+            }
+        };
+        self.per_liter = Some(rate / canonical);
+        self.volume_unit = Some(unit);
+    }
     // meter is the base unit so 50 / centimeter means 5,000 per meter
     pub fn set_length(&mut self, rate: f64, unit: LengthUnit) {
         let canonical = match unit {
@@ -351,7 +366,7 @@ pub struct CreatePricingProfile {
     pub name: String,
     is_normalized: Option<bool>,
     /// base charge per print.
-    base: f64,
+    pub base: f64,
 
     /// price per base unit time.
     per_sec: Option<f64>,
