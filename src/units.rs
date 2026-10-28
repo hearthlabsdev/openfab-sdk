@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::str::FromStr;
 use thiserror::Error;
+use std::collections::HashMap;
 
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
@@ -26,6 +27,9 @@ pub enum TimeUnit {
 }
 
 impl TimeUnit {
+    pub const fn list() -> &'static [TimeUnit] {
+        &[TimeUnit::Second, TimeUnit::Minute, Self::Hour]
+    }
     pub const fn fullname(&self) -> &'static str {
         match self {
             Self::Second => "second",
@@ -89,6 +93,9 @@ pub enum LengthUnit {
 }
 
 impl LengthUnit {
+    pub const fn list() -> &'static [LengthUnit] {
+        &[LengthUnit::Millimeter, LengthUnit::Centimeter, LengthUnit::Meter, LengthUnit::Kilometer]
+    }
     pub const fn fullname(&self) -> &'static str {
         match self {
             Self::Millimeter => "millimeter",
@@ -153,6 +160,9 @@ pub enum VolumeUnit {
 }
 
 impl VolumeUnit {
+    pub const fn list() -> &'static [VolumeUnit] {
+        &[Self::Milliliter, Self::Liter]
+    }
     pub const fn fullname(&self) -> &'static str {
         match self {
             Self::Milliliter => "milliliter",
@@ -208,6 +218,9 @@ pub enum WeightUnit {
 }
 
 impl WeightUnit {
+    pub const fn list() -> &'static [WeightUnit] {
+        &[Self::Milligram, Self::Gram, Self::Kilogram]
+    }
     pub const fn fullname(&self) -> &'static str {
         match self {
             Self::Milligram => "milligram",
@@ -270,6 +283,9 @@ pub enum AreaUnit {
 }
 
 impl AreaUnit {
+    pub const fn list() -> &'static [AreaUnit] {
+        &[Self::SquareMillimeter, Self::SquareCentimeter, Self::SquareMeter]
+    }
     pub const fn fullname(&self) -> &'static str {
         match self {
             Self::SquareMillimeter => "square millimeter",
@@ -338,6 +354,9 @@ pub enum PowerUnit {
 }
 
 impl PowerUnit {
+    pub const fn list() -> &'static [PowerUnit] {
+        &[Self::Milliwatt, Self::Watt, Self::Kilowatt, Self::Megawatt]
+    }
     pub const fn fullname(&self) -> &'static str {
         match self {
             Self::Milliwatt => "milliwatt",
@@ -641,4 +660,32 @@ mod tests {
 
         assert!(PowerUnit::from_str("horsepower").is_err());
     }
+}
+
+pub struct UnitEntry {
+    pub name: &'static str,
+    pub entries: Vec<String>,
+}
+pub fn unit_list() -> HashMap<String, Vec<String>> {
+    let mut units = HashMap::new();
+
+    let time = TimeUnit::list().iter().map(|v| v.fullname().to_string()).collect::<Vec<String>>();
+    units.insert("time".into(), time);
+
+    let length = LengthUnit::list().iter().map(|v| v.fullname().to_string()).collect::<Vec<String>>();
+    units.insert("length".into(), length);
+
+    let area = AreaUnit::list().iter().map(|v| v.fullname().to_string()).collect::<Vec<String>>();
+    units.insert("area".into(), area);
+
+    let volume = VolumeUnit::list().iter().map(|v| v.fullname().to_string()).collect::<Vec<String>>();
+    units.insert("volume".into(), volume);
+
+    let weight = WeightUnit::list().iter().map(|v| v.fullname().to_string()).collect::<Vec<String>>();
+    units.insert("weight".into(), weight);
+
+    let power = PowerUnit::list().iter().map(|v| v.fullname().to_string()).collect::<Vec<String>>();
+    units.insert("power".into(), power);
+
+    units
 }
