@@ -66,7 +66,6 @@ impl FromStr for Reconciliation {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
-#[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct PricingProfile {
     pub uid: Uuid,
     pub name: String,
@@ -103,6 +102,30 @@ pub struct PricingProfile {
 }
 
 impl PricingProfile {
+
+    pub fn get_time_unit(&self) -> Option<TimeUnit> {
+        self.time_unit
+    }
+
+    pub fn get_length_unit(&self) -> Option<LengthUnit> {
+        self.length_unit
+    }
+
+    pub fn get_area_unit(&self) -> Option<AreaUnit> {
+        self.area_unit
+    }
+
+    pub fn get_power_unit(&self) -> Option<PowerUnit> {
+        self.power_unit
+    }
+
+    pub fn get_volume_unit(&self) -> Option<VolumeUnit> {
+        self.volume_unit
+    }
+
+    pub fn get_weight_unit(&self) -> Option<WeightUnit> {
+        self.weight_unit
+    }
     // ==========================================
     // TIME (Canonical Base: Seconds)
     // ==========================================
