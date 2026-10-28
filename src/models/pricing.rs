@@ -188,6 +188,20 @@ impl PricingProfile {
         self.get_time_as(unit)
     }
 
+
+    pub fn get_volume_as(&self, unit: VolumeUnit) -> Option<f64> {
+        let base_rate = self.per_liter?;
+        let converted = Volume::new::<uom::si::volume::liter>(base_rate);
+        Some(match unit {
+            VolumeUnit::Milliliter => converted.get::<uom::si::volume::milliliter>(),
+            VolumeUnit::Liter => converted.get::<uom::si::volume::liter>(),
+        })
+    }
+
+    pub fn get_volume(&self) -> Option<f64> {
+        let unit = self.volume_unit?;
+        self.get_volume_as(unit)
+    }
     // ==========================================
     // LENGTH (Canonical Base: Meters)
     // ==========================================
