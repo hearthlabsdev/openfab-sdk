@@ -103,6 +103,36 @@ pub struct PricingProfile {
 
 impl PricingProfile {
 
+    pub fn new(
+        uid: Uuid,
+        name: impl Into<String>,
+        base: f64,
+        reconciliation: Reconciliation,
+        created_at: i64,
+    ) -> Self {
+        Self {
+            uid,
+            name: name.into(),
+            base,
+            per_sec: None,
+            time_unit: None,
+            per_meter: None,
+            length_unit: None,
+            per_sqm: None,
+            area_unit: None,
+            per_watt: None,
+            power_unit: None,
+            per_liter: None,
+            volume_unit: None,
+            per_kg: None,
+            weight_unit: None,
+            per_count: None,
+            count_unit: None,
+            created_at,
+            reconciliation,
+        }
+    }
+
     pub fn get_time_unit(&self) -> Option<TimeUnit> {
         self.time_unit
     }
