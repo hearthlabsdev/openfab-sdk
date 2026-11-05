@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["vivianlazaras@gmail.com"]
 description = "API Bindings for Open Fabrication"
 # Override this license by providing a License Object in the OpenAPI.
-license = "HL3"
+license = "MIT"
 edition = "2021"
 keywords = ["openfab"]
 
