@@ -1,5 +1,6 @@
 #![allow(unused_imports)]
 #![allow(clippy::too_many_arguments)]
+#![allow(clippy::unused_return_statement)]
 //! # OpenFAB Client
 //!
 //! A lightweight client library for interacting with the OpenFAB API.
