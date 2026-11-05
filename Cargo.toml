@@ -15,7 +15,7 @@ serde_json = "^1.0"
 serde_repr = "^0.1"
 url = "^2.5"
 uuid = { version = "^1.8", features = ["serde", "v4"] }
-webreq = { version = "0.1.0", git = "https://github.com/vivianlazaras/webreq", features = ["serde"] }
+#webreq = { version = "0.1.0", git = "https://github.com/vivianlazaras/webreq", features = ["serde"] }
 structopt = "0.3.26"
 tokio = { version = "1.54.0", features = ["rt","macros","io-util","time"], default-features = false }
 rocket_okapi = { version = "0.9.0", optional = true }
@@ -26,7 +26,7 @@ thiserror = "2.0.21"
 infer = "0.22.0"
 rocket = { version = "0.5.1", features = ["uuid"], optional = true }
 json = "0.12.4"
-reqwest = { version = "0.13.5", features = ["stream", "query"], optional = true }
+reqwest = { version = "0.13.5", features = ["stream", "query", "json"], optional = true }
 uom = "0.38.0"
 livekit = { version = "0.10.0", optional = true }
 retina = { version = "0.4.21", git = "https://github.com/vivianlazaras/retina", features = ["ring"], optional = true }

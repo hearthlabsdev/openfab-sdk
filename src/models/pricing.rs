@@ -695,10 +695,10 @@ impl CreatePricingProfile {
             uid: Uuid::new_v4(),
             name: self.name,
 
-            /// base charge per print.
+            // base charge per print.
             base: self.base,
 
-            /// price per base unit time.
+            // price per base unit time.
             per_sec: self.per_sec,
             time_unit: self.time_unit,
 
@@ -717,12 +717,12 @@ impl CreatePricingProfile {
             per_kg: self.per_kg,
             weight_unit: self.weight_unit,
 
-            /// price per count of something
+            // price per count of something
             per_count: self.per_count,
             count_name: self.count_name,
 
             created_at: unix_epoch_seconds(),
-            /// intra and inter profile reconiliation strategy, uses the most specific reconciliation in the hierarchy.
+            // intra and inter profile reconiliation strategy, uses the most specific reconciliation in the hierarchy.
             reconciliation: self.reconciliation,
         }
     }

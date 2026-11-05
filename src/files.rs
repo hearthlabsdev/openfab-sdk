@@ -111,7 +111,7 @@ impl FileTypeChecker {
             None => {
                 let mut contents = Vec::new();
                 match file.read_to_end(&mut contents).await {
-                    Ok(val) => self.detect_for_buffer(extension, &contents),
+                    Ok(_val) => self.detect_for_buffer(extension, &contents),
                     _ => None,
                 }
             }
