@@ -27,10 +27,16 @@ rocket = { version = "0.5.1", features = ["uuid"], optional = true }
 json = "0.12.4"
 reqwest = { version = "0.13.5", features = ["stream", "query"], optional = true }
 uom = "0.38.0"
+livekit = { version = "0.10.0", optional = true }
+retina = { git = "https://github.com/vivianlazaras/retina", features = ["ring"], optional = true }
 
 [features]
+default = ["streaming", "fs", "api"]
 schema = ["dep:rocket_okapi", "dep:okapi", "dep:schemars"]
 fromform = ["dep:rocket"]
 plugins = []
 fs = ["tokio/fs"]
 api = ["dep:reqwest", "tokio/rt-multi-thread", "fs"]
+streaming = []
+retina = ["streaming", "dep:retina"]
+livekit = ["streaming", "dep:livekit"]

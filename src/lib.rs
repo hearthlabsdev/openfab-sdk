@@ -64,6 +64,8 @@ pub mod files;
 pub mod models;
 pub mod units;
 pub mod utils;
+#[cfg(feature = "streaming")]
+pub mod streaming;
 
 #[cfg(feature = "api")]
 pub use apis::configuration::Configuration;
