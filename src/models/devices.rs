@@ -12,7 +12,10 @@ use crate::models::CreateRoom;
 use crate::models;
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
-use serde::{Deserialize, Serialize};
+use serde::{Serialize, Deserialize};
+use std::collections::HashMap;
+#[cfg(feature = "fromform")]
+use rocket::form::FromForm;
 use uuid::Uuid;
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
@@ -173,7 +176,7 @@ pub struct CreateDevice {
     pub driver_id: String,
     pub driver_version: String,
     pub upload_dir: Option<String>,
-    pub driver_extras: Option<serde_json::Value>,
+    pub driver_extras: Option<HashMap<String, String>>,
 }
 
 impl DeviceOrm {
