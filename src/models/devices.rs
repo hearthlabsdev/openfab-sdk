@@ -162,6 +162,20 @@ pub struct DeviceOrm {
     pub configs: Option<Vec<DeviceConfig>>,
 }
 
+#[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(FromForm))]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateDevice {
+    pub serial: String,
+    pub name: String,
+    pub status: String,
+    pub enabled: bool,
+    pub driver_id: String,
+    pub driver_version: String,
+    pub upload_dir: Option<String>,
+    pub driver_extras: Option<serde_json::Value>,
+}
+
 impl DeviceOrm {
     pub fn new(
         uid: uuid::Uuid,
