@@ -12,12 +12,12 @@ use std::collections::HashMap;
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 pub struct Material {
-    uuid: Uuid,
-    material: String,
-    material_class: String,
-    id: String,
-    brand_id: Uuid,
-    slug: String,
+    pub uuid: Uuid,
+    pub material: String,
+    pub material_class: String,
+    pub id: String,
+    pub brand_id: Uuid,
+    pub slug: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
