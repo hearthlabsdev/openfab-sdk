@@ -5,6 +5,7 @@ authors = ["vivianlazaras@gmail.com"]
 description = "API Bindings for Open Fabrication"
 # Override this license by providing a License Object in the OpenAPI.
 license = "MIT"
+docs = "docs.rs"
 edition = "2021"
 keywords = ["openfab"]
 

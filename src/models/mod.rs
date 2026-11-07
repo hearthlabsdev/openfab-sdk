@@ -26,6 +26,8 @@ mod plugins;
 #[cfg(feature = "plugins")]
 pub use plugins::*;
 
+mod camera;
+pub use camera::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
