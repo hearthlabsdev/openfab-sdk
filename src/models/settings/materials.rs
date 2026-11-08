@@ -105,6 +105,7 @@ pub struct CreateMaterial {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateFilament {
     pub id: String,
     pub name: String,
@@ -125,6 +126,7 @@ pub struct CreateFilament {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateFilamentVariant {
     pub id: Uuid,
     pub name: String,
@@ -138,6 +140,7 @@ pub struct CreateFilamentVariant {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateFilamentSize {
     pub filament_weight: f64,
     pub diameter: f64,
@@ -153,6 +156,7 @@ pub struct CreateFilamentSize {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateStore {
     pub id: Uuid,
     pub name: String,
@@ -167,6 +171,7 @@ pub struct CreateStore {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreatePurchaseURL {
     pub store_id: Uuid,
     pub url: String,
