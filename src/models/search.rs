@@ -31,8 +31,10 @@ pub type DeviceQuery = DataQuery<DeviceExtras>;
 #[cfg_attr(feature = "fromform", derive(rocket::form::FromForm))]
 pub struct DataQuery<E = EmptyExtras> {
     pub name: Option<String>,
-    pub created_between: Option<(Option<i64>, Option<i64>)>,
-    pub updated_between: Option<(Option<i64>, Option<i64>)>,
+    pub created_after: Option<i64>,
+    pub created_before: Option<i64>,
+    pub updated_after: Option<i64>,
+    pub updated_before: Option<i64>,
     pub resource_types: Option<Vec<String>>,   
     
     /// Additional search filters that are specific to the type `E`.
@@ -45,8 +47,10 @@ impl<E: rocket_query::search::SearchFilter> DataQuery<E> {
     pub fn new() -> Self {
         Self {
             name: None,
-            created_between: None,
-            updated_between: None,
+            created_after: None,
+            created_before: None,
+            updated_after: None,
+            updated_before: None,
             resource_types: None,
             extras: None,
         }
@@ -61,7 +65,7 @@ impl<E: rocket_query::search::SearchFilter> DataQuery<E> {
                 value: serde_json::Value::String(name.clone()),
             }));
         }
-        if let Some((start, end)) = &self.created_between {
+        if let (start, end) = (&self.created_after, &self.created_before) {
             if let Some(start) = start {
                 filters.push(Filter::Condition(Condition {
                     operator: Operator::Gte,
@@ -77,7 +81,7 @@ impl<E: rocket_query::search::SearchFilter> DataQuery<E> {
                 }));
             }
         }
-        if let Some((start, end)) = &self.updated_between {
+        if let (start, end) = (&self.updated_after, &self.updated_before) {
             if let Some(start) = start {
                 filters.push(Filter::Condition(Condition {
                     operator: Operator::Gte,
@@ -122,36 +126,39 @@ impl<E: rocket_query::search::SearchFilter> DataQuery<E> {
         self.name = Some(name);
         self
     }
-    pub fn created_between(mut self, start: Option<i64>, end: Option<i64>) -> Self {
-        self.created_between = Some((start, end));
+    pub fn created(mut self, start: i64, end: i64) -> Self {
+        self.created_after = Some(start);
+        self.created_before = Some(end);
         self
     }
-    pub fn updated_between(mut self, start: Option<i64>, end: Option<i64>) -> Self {
-        self.updated_between = Some((start, end));
+    pub fn updated(mut self, start: i64, end: i64) -> Self {
+        self.updated_after = Some(start);
+        self.updated_before = Some(end);
         self
     }
     pub fn created_after(mut self, timestamp: i64) -> Self {
-        self.created_between = Some((Some(timestamp), None));
+        self.created_after = Some(timestamp);
         self
     }
-    pub fn extras(mut self, extras: E) -> Self {
-        self.extras = Some(extras);
-        self
-    }
+    
     pub fn created_before(mut self, timestamp: i64) -> Self {
-        self.created_between = Some((None, Some(timestamp)));
+        self.created_before = Some(timestamp);
         self
     }
     pub fn updated_after(mut self, timestamp: i64) -> Self {
-        self.updated_between = Some((Some(timestamp), None));
+        self.updated_after = Some(timestamp);
         self
     }
     pub fn updated_before(mut self, timestamp: i64) -> Self {
-        self.updated_between = Some((None, Some(timestamp)));
+        self.updated_before = Some(timestamp);
         self
     }
     pub fn resource_types(mut self, resource_types: Vec<String>) -> Self {
         self.resource_types = Some(resource_types);
+        self
+    }
+    pub fn extras(mut self, extras: E) -> Self {
+        self.extras = Some(extras);
         self
     }
 }
