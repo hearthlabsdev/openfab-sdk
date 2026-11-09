@@ -6,10 +6,17 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(rocket::form::FromForm))]
+struct EmptyExtras {
+    void: Option<String>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "fromform", derive(rocket::form::FromForm))]
-pub struct DataQuery<E: rocket_query::search::SearchFilter> {
+pub struct DataQuery<E = EmptyExtras> {
     pub name: Option<String>,
     pub created_between: Option<(Option<i64>, Option<i64>)>,
     pub updated_between: Option<(Option<i64>, Option<i64>)>,
