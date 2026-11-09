@@ -31,6 +31,7 @@ reqwest = { version = "0.13.5", features = ["stream", "query", "json"], optional
 uom = "0.38.0"
 livekit = { version = "0.10.0", optional = true }
 retina = { version = "0.4.21", optional = true }
+rocket-query = { git = "https://github.com/vivianlazaras/rocket-query" }
 
 [features]
 default = ["streaming", "fs", "api"]

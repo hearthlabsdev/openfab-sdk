@@ -20,6 +20,8 @@ pub mod error_response2;
 pub use error_response2::*;
 
 pub mod settings;
+pub mod search;
+pub use search::*;
 
 #[cfg(feature = "plugins")]
 mod plugins;
