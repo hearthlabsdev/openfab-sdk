@@ -14,6 +14,10 @@ pub struct DataQuery<E: rocket_query::search::SearchFilter> {
     pub created_between: Option<(Option<i64>, Option<i64>)>,
     pub updated_between: Option<(Option<i64>, Option<i64>)>,
     pub resource_types: Option<Vec<String>>,   
+    
+    /// Additional search filters that are specific to the type `E`.
+    /// This allows for extending the base query with custom filters defined by the user.
+    #[serde(flatten)]
     extras: Option<E>,
 }
 
