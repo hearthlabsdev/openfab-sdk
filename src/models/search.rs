@@ -16,6 +16,19 @@ struct EmptyExtras {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "fromform", derive(rocket::form::FromForm))]
+pub struct DeviceExtras {
+    pub driver_id: Option<String>,
+    pub serial: Option<String>,
+    pub status: Option<String>,
+    pub queue: Option<Uuid>,
+    pub library: Option<Uuid>,
+}
+
+pub type DeviceQuery = DataQuery<DeviceExtras>;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
+#[cfg_attr(feature = "fromform", derive(rocket::form::FromForm))]
 pub struct DataQuery<E = EmptyExtras> {
     pub name: Option<String>,
     pub created_between: Option<(Option<i64>, Option<i64>)>,
@@ -25,7 +38,7 @@ pub struct DataQuery<E = EmptyExtras> {
     /// Additional search filters that are specific to the type `E`.
     /// This allows for extending the base query with custom filters defined by the user.
     #[serde(flatten)]
-    extras: Option<E>,
+    pub extras: Option<E>,
 }
 
 impl<E: rocket_query::search::SearchFilter> DataQuery<E> {
