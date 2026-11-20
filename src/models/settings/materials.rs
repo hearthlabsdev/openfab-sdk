@@ -12,15 +12,20 @@ use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
 use std::collections::HashMap;
 
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
-#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum MaterialDB {
-    #[default]
     Internal,
     OpenFilamentDB,
     External(String),
 }
 
-#[cfg(feature = "fromform")]
+impl Default for MaterialDB {
+    fn default() -> Self {
+        MaterialDB::Internal
+    }
+}
+
+#[cfg(feature = "schema")]
 #[rocket::async_trait]
 impl<'v> FromFormField<'v> for MaterialDB {
     fn from_value(field: ValueField<'v>) -> form::Result<'v, Self> {
@@ -170,7 +175,6 @@ pub struct CreateFilament {
     pub max_print_temperature: u32,
     pub min_bed_temperature: u32,
     pub max_bed_temperature: u32,
-    #[serde(default)]
     pub discontinued: bool,
     pub brand_id: Uuid,
     pub material_id: Uuid,
@@ -187,7 +191,6 @@ pub struct CreateFilamentVariant {
     pub source: Option<MaterialDB>,
     pub name: String,
     pub color_hex: String,
-    #[serde(default)]
     pub discontinued: bool,
     pub filament_id: Uuid,
     pub slug: String,
@@ -206,7 +209,6 @@ pub struct CreateFilamentSize {
     pub empty_spool_weight: bool,
     pub spool_core_diameter: f64,
     pub article_number: String,
-    #[serde(default)]
     pub discontinued: bool,
     pub id: Uuid,
     pub variant_id: Uuid,
