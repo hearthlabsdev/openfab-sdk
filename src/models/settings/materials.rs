@@ -49,10 +49,11 @@ impl FromStr for MaterialDB {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 pub struct Material {
-    pub uuid: Uuid,
+    pub uid: Uuid,
     pub material: String,
     pub material_class: String,
-    pub id: String,
+    pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub brand_id: Uuid,
     pub slug: String,
 }
@@ -141,7 +142,7 @@ pub struct PurchaseURL {
 pub struct CreateMaterial {
     pub material: String,
     pub material_class: String,
-    pub id: String,
+    pub source_id: Uuid,
     pub brand_id: Uuid,
     pub slug: String,
 }
@@ -155,7 +156,7 @@ pub struct CreateFilament {
     pub name: String,
     pub diameter_tolerance: f64,
     pub density: f64,
-    pub min_primt_temperature: u32,
+    pub min_print_temperature: u32,
     pub max_print_temperature: u32,
     pub min_bed_temperature: u32,
     pub max_bed_temperature: u32,
