@@ -32,9 +32,11 @@ uom = "0.38.0"
 livekit = { version = "0.10.0", optional = true }
 retina = { version = "0.4.21", optional = true }
 rocket-query = { git = "https://github.com/vivianlazaras/rocket-query" }
+paste = "1.0.15"
+ipp = { version = "8.0.0", optional = true }
 
 [features]
-default = ["streaming", "fs", "api"]
+default = ["streaming", "fs", "api", "ipp"]
 schema = ["dep:rocket_okapi", "dep:okapi", "dep:schemars"]
 fromform = ["dep:rocket"]
 plugins = []
@@ -44,3 +46,4 @@ streaming = []
 retina = ["streaming", "dep:retina"]
 livekit = ["streaming", "dep:livekit", "livekit-models"]
 livekit-models = []
+ipp = ["dep:ipp"]

@@ -1,7 +1,7 @@
-use rocket_query::search::{Filter, Condition, Operator, LogicOperator};
+use rocket_query::search::{Condition, Filter, LogicOperator, Operator};
+use serde::{Deserialize, Serialize};
 use serde_json;
 use uuid::Uuid;
-use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
@@ -35,8 +35,8 @@ pub struct DataQuery<E = EmptyExtras> {
     pub created_before: Option<i64>,
     pub updated_after: Option<i64>,
     pub updated_before: Option<i64>,
-    pub resource_types: Option<Vec<String>>,   
-    
+    pub resource_types: Option<Vec<String>>,
+
     /// Additional search filters that are specific to the type `E`.
     /// This allows for extending the base query with custom filters defined by the user.
     #[serde(flatten)]
@@ -110,15 +110,9 @@ impl<E: rocket_query::search::SearchFilter> DataQuery<E> {
             None
         } else {
             match op {
-                LogicOperator::And => {
-                    Some(Filter::And(filters))
-                }
-                LogicOperator::Or => {
-                    Some(Filter::Or(filters))
-                },
-                LogicOperator::Not => {
-                    Some(Filter::Not(Box::new(Filter::And(filters))))
-                }
+                LogicOperator::And => Some(Filter::And(filters)),
+                LogicOperator::Or => Some(Filter::Or(filters)),
+                LogicOperator::Not => Some(Filter::Not(Box::new(Filter::And(filters)))),
             }
         }
     }
@@ -140,7 +134,7 @@ impl<E: rocket_query::search::SearchFilter> DataQuery<E> {
         self.created_after = Some(timestamp);
         self
     }
-    
+
     pub fn created_before(mut self, timestamp: i64) -> Self {
         self.created_before = Some(timestamp);
         self

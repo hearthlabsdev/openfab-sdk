@@ -1,4 +1,6 @@
 use serde::{Deserialize, Serialize};
+use std::fmt;
+use std::str::FromStr;
 use uuid::Uuid;
 
 #[cfg(feature = "fromform")]
@@ -8,6 +10,41 @@ use rocket::FromForm;
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
 
 use std::collections::HashMap;
+
+#[cfg_attr(feature = "fromform", derive(FromFormField))]
+#[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub enum MaterialDB {
+    #[default]
+    Internal,
+    OpenFilamentDB,
+    External(String),
+}
+
+impl fmt::Display for MaterialDB {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            MaterialDB::Internal => write!(f, "internal"),
+            MaterialDB::OpenFilamentDB => write!(f, "openfilamentdb"),
+            MaterialDB::External(s) => write!(f, "external({})", s),
+        }
+    }
+}
+
+impl FromStr for MaterialDB {
+    type Err = std::convert::Infallible;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_lowercase().as_str() {
+            "internal" => Ok(MaterialDB::Internal),
+            "openfilamentdb" => Ok(MaterialDB::OpenFilamentDB),
+            s if s.starts_with("external(") && s.ends_with(")") => {
+                Ok(MaterialDB::External(s[9..s.len() - 1].to_string()))
+            }
+            _ => Ok(MaterialDB::External(s.to_string())),
+        }
+    }
+}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
@@ -24,7 +61,8 @@ pub struct Material {
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 pub struct Filament {
     pub uid: Uuid,
-    pub id: String,
+    pub source_id: Uuid,
+    pub source: MaterialDB,
     pub name: String,
     pub diameter_tolerance: f64,
     pub density: f64,
@@ -40,12 +78,12 @@ pub struct Filament {
     pub notes: Option<String>,
 }
 
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 pub struct FilamentVariant {
-    pub uuid: Uuid,
-    pub id: Uuid,
+    pub uid: Uuid,
+    pub source_id: Uuid,
+    pub source: MaterialDB,
     pub name: String,
     pub color_hex: String,
     pub discontinued: bool,
@@ -57,7 +95,9 @@ pub struct FilamentVariant {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 pub struct FilamentSize {
-    pub uuid: Uuid,
+    pub uid: Uuid,
+    pub source_id: Uuid,
+    pub source: MaterialDB,
     pub filament_weight: f64,
     pub diameter: f64,
     pub spool_refill: bool,
@@ -72,9 +112,10 @@ pub struct FilamentSize {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 pub struct Store {
-    pub uuid: Uuid,
-    pub id: Uuid,
+    pub uid: Uuid,
+    pub source_id: Uuid,
     pub name: String,
+    pub source: MaterialDB,
     pub storefront_url: String,
     pub logo_name: String,
     /// country code that this store ships to
@@ -89,7 +130,9 @@ pub struct Store {
 pub struct PurchaseURL {
     pub store_id: Uuid,
     pub url: String,
-    pub id: Uuid,
+    pub uid: Uuid,
+    pub source_id: Uuid,
+    pub source: MaterialDB,
     pub size_id: Uuid,
     pub spool_refill: bool,
 }
@@ -107,7 +150,8 @@ pub struct CreateMaterial {
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 #[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateFilament {
-    pub id: String,
+    pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub name: String,
     pub diameter_tolerance: f64,
     pub density: f64,
@@ -128,7 +172,8 @@ pub struct CreateFilament {
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 #[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateFilamentVariant {
-    pub id: Uuid,
+    pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub name: String,
     pub color_hex: String,
     #[serde(default)]
@@ -142,6 +187,8 @@ pub struct CreateFilamentVariant {
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 #[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateFilamentSize {
+    pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub filament_weight: f64,
     pub diameter: f64,
     pub spool_refill: bool,
@@ -158,7 +205,8 @@ pub struct CreateFilamentSize {
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 #[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreateStore {
-    pub id: Uuid,
+    pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub name: String,
     pub storefront_url: String,
     pub logo_name: String,
@@ -173,9 +221,10 @@ pub struct CreateStore {
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 #[cfg_attr(feature = "fromform", derive(FromForm))]
 pub struct CreatePurchaseURL {
+    pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub store_id: Uuid,
     pub url: String,
-    pub id: Uuid,
     pub size_id: Uuid,
-    pub spool_refill: bool,
+    pub refill: bool,
 }

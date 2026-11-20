@@ -102,7 +102,6 @@ pub struct PricingProfile {
 }
 
 impl PricingProfile {
-
     pub fn new(
         uid: Uuid,
         name: impl Into<String>,
@@ -312,8 +311,12 @@ impl PricingProfile {
         let base_rate = self.per_sqm?;
         let canonical = Area::new::<uom::si::area::square_meter>(1.0);
         Some(match unit {
-            AreaUnit::SquareMillimeter => base_rate / canonical.get::<uom::si::area::square_millimeter>(),
-            AreaUnit::SquareCentimeter => base_rate / canonical.get::<uom::si::area::square_centimeter>(),
+            AreaUnit::SquareMillimeter => {
+                base_rate / canonical.get::<uom::si::area::square_millimeter>()
+            }
+            AreaUnit::SquareCentimeter => {
+                base_rate / canonical.get::<uom::si::area::square_centimeter>()
+            }
             AreaUnit::SquareMeter => base_rate / canonical.get::<uom::si::area::square_meter>(),
         })
     }
@@ -814,7 +817,9 @@ mod tests {
         profile.set_weight(500.0, WeightUnit::Gram);
         assert_eq!(profile.weight_unit, Some(WeightUnit::Gram));
         assert!((profile.get_weight().unwrap() - 500.0).abs() < 1e-6);
-        assert!((profile.get_weight_as(WeightUnit::Kilogram).unwrap() - 500.0 * 1_000.0).abs() < 1e-6);
+        assert!(
+            (profile.get_weight_as(WeightUnit::Kilogram).unwrap() - 500.0 * 1_000.0).abs() < 1e-6
+        );
         assert!((profile.get_weight_as(WeightUnit::Milligram).unwrap() - 0.5).abs() < 1e-3);
 
         // --- AREA ---

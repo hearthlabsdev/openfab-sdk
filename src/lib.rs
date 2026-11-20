@@ -59,14 +59,18 @@ extern crate url;
 
 #[cfg(feature = "api")]
 pub mod apis;
+pub mod command;
 pub mod errors;
 /// this module provides file validation and more comprehensive file type inference.
 pub mod files;
+#[cfg(feature = "ipp")]
+pub mod ipp;
 pub mod models;
-pub mod units;
-pub mod utils;
 #[cfg(feature = "streaming")]
 pub mod streaming;
+pub mod units;
+pub mod utils;
 
 #[cfg(feature = "api")]
 pub use apis::configuration::Configuration;
+pub use command::{Command, Operation, Payload};

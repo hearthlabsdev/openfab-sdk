@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
