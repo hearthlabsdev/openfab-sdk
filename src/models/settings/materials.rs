@@ -4,14 +4,13 @@ use std::str::FromStr;
 use uuid::Uuid;
 
 #[cfg(feature = "fromform")]
-use rocket::FromForm;
+use rocket::form::{FromForm, FromFormField, ValueField, self};
 
 #[cfg(feature = "schema")]
 use rocket_okapi::okapi::{schemars, schemars::JsonSchema};
 
 use std::collections::HashMap;
 
-#[cfg_attr(feature = "fromform", derive(FromFormField))]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub enum MaterialDB {
@@ -19,6 +18,14 @@ pub enum MaterialDB {
     Internal,
     OpenFilamentDB,
     External(String),
+}
+
+#[cfg(feature = "fromform")]
+#[rocket::async_trait]
+impl<'v> FromFormField<'v> for MaterialDB {
+    fn from_value(field: ValueField<'v>) -> form::Result<'v, Self> {
+        Ok(field.value.parse::<MaterialDB>().expect("unreachable code trigger"))
+    }
 }
 
 impl fmt::Display for MaterialDB {
@@ -133,7 +140,7 @@ pub struct PurchaseURL {
     pub uid: Uuid,
     pub store_id: Uuid,
     pub url: String,
-    
+
     pub source_id: Uuid,
     pub source: MaterialDB,
     pub size_id: Uuid,

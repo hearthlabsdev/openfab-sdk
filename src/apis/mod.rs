@@ -1,5 +1,20 @@
+use crate::models;
+use serde::{Deserialize, Serialize};
 use std::error;
 use std::fmt;
+/// struct for typed errors of method [`list_devices`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum APIError {
+    Status500(models::ErrorResponse),
+    Status501(models::ErrorResponse),
+    Status400(models::ErrorResponse),
+    Status401(models::ErrorResponse),
+    Status403(models::ErrorResponse),
+    Status404(models::ErrorResponse),
+    Status422(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
 
 #[derive(Debug, Clone)]
 pub struct ResponseContent<T> {

@@ -14,6 +14,12 @@ pub enum SDKError {
     #[error("io error: {0}")]
     IOError(#[from] std::io::Error),
 
+    #[error("api error: {0}")]
+    APIError(#[from] crate::apis::Error<crate::apis::APIError>),
+
+    #[error("invalid response type: {0}")]
+    InvalidResponseType(String),
+
     #[error("other error occured: {0}")]
     Other(String),
 }

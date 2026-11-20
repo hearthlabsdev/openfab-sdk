@@ -4,12 +4,16 @@
 
 use crate::models::UploadObject;
 use crate::models::{ApiKeyInfo, LoginInfo};
+
+use super::{APIError, Error};
+use crate::apis::ResponseContent;
 use reqwest::Method;
 use serde::de::DeserializeOwned;
 use tokio::io::AsyncRead;
 use tokio::io::AsyncReadExt;
 use tokio::io::AsyncSeek;
 use tokio::io::AsyncSeekExt;
+use url::Url;
 /*
  * openfab-api-server
  *
@@ -43,6 +47,61 @@ pub struct Configuration {
 }
 
 impl Configuration {
+    /// Constructs a new HTTP request using the specified method and URL, applying any configured headers such as the User-Agent and Bearer token.
+    ///
+    /// Returns a `reqwest::RequestBuilder` that can be further customized before being executed with the `execute` method.
+    pub fn request(&self, method: Method, url: Url) -> reqwest::RequestBuilder {
+        let mut req_builder = self.client.request(method, url);
+        if let Some(ref user_agent) = &self.user_agent {
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+        }
+        if let Some(ref token) = &self.bearer_access_token {
+            req_builder = req_builder.bearer_auth(token.to_owned());
+        }
+        req_builder
+    }
+
+    /// Executes the given HTTP request and attempts to deserialize the response into the specified type `T`.
+    ///
+    /// Returns an `SDKError` if the request fails, the response status indicates an error, or the response cannot be deserialized into the expected type.
+    pub async fn execute<T: DeserializeOwned>(
+        &self,
+        request: reqwest::RequestBuilder,
+    ) -> Result<T, crate::errors::SDKError> {
+        let response = request.send().await?;
+        let resp = response;
+        let status = resp.status();
+        let content_type = resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let content_type = super::ContentType::from(content_type);
+
+        if !status.is_client_error() && !status.is_server_error() {
+            let content = resp.text().await?;
+            match content_type {
+                super::ContentType::Json => {
+                    serde_json::from_str(&content).map_err(crate::errors::SDKError::from)
+                }
+                super::ContentType::Text => Err(crate::errors::SDKError::InvalidResponseType(
+                    "text".to_string(),
+                )),
+                super::ContentType::Unsupported(unknown_type) => Err(
+                    crate::errors::SDKError::InvalidResponseType(unknown_type.to_string()),
+                ),
+            }
+        } else {
+            let content = resp.text().await?;
+            let entity: Option<APIError> = serde_json::from_str(&content).ok();
+            Err(Error::ResponseError(ResponseContent {
+                status,
+                content,
+                entity,
+            })
+            .into())
+        }
+    }
     /// checks the file type before uploading to supply it to the underlying put method
     /// uploads the given object
     pub async fn put_file<T: DeserializeOwned>(

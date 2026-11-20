@@ -1,3 +1,4 @@
+use openfab_sdk::command::ListDevices;
 #[cfg(feature = "api")]
 use openfab_sdk::Configuration;
 use openfab_sdk::{errors::SDKError, files::FileTypeChecker};
@@ -154,10 +155,12 @@ impl Command {
     ) -> Result<(), SDKError> {
         match model {
             ResourceModel::Devices => {
-                let resp = config
-                    .list_devices(page)
-                    .await
-                    .expect("failed to list devices");
+                let resp =
+                    ListDevices::new(id.map(|v| v.parse().expect("failed to parse id")).into())
+                        .run(&config)
+                        .await
+                        .expect("list devices");
+
                 println!(
                     "{}",
                     serde_json::to_string_pretty(&resp).expect("failed to serialize response")

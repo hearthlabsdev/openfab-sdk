@@ -1,18 +1,190 @@
 use crate::models::DeviceOrm;
+use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
+use std::fmt;
 use thiserror::Error;
 use url::Url;
 use uuid::Uuid;
+
+use crate::Configuration;
+
+#[derive(Debug, Clone)]
+pub struct InnerError {
+    /// represents a protocol name such as HTTP, IPP, or any other transport protocol associated with the error.
+    pub protocol: Option<String>,
+    pub error_code: u32,
+    pub description: String,
+}
+
+impl fmt::Display for InnerError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "Protocol: {:?}, Error code: {}, Description: {}",
+            self.protocol, self.error_code, self.description
+        )
+    }
+}
 
 #[derive(Debug, Error)]
 #[error("Command error: {0}")]
 pub enum CommandError {
     #[error("Missing parent ID")]
     MissingParentId,
+
     #[error("Missing unique ID")]
     MissingUniqueId,
+
     #[error("Invalid URL: {0}")]
     InvalidUrl(#[from] url::ParseError),
+
+    #[error("Serialization error: {0}")]
+    SerializationError(InnerError),
+
+    #[error("Deserialization error: {0}")]
+    DeserializationError(InnerError),
+
+    #[error("Transport error: {0}")]
+    TransportError(InnerError),
+}
+
+impl CommandError {
+    pub fn from_serialization_error<E: std::fmt::Display>(err: E) -> Self {
+        CommandError::SerializationError(InnerError {
+            protocol: None,
+            error_code: 0,
+            description: err.to_string(),
+        })
+    }
+
+    pub fn from_deserialization_error<E: std::fmt::Display>(err: E) -> Self {
+        CommandError::DeserializationError(InnerError {
+            protocol: None,
+            error_code: 0,
+            description: err.to_string(),
+        })
+    }
+}
+
+#[cfg(feature = "api")]
+impl From<reqwest::Error> for CommandError {
+    fn from(err: reqwest::Error) -> Self {
+        let error_code = err.status().map(|s| s.as_u16() as u32).unwrap_or(0);
+        CommandError::TransportError(InnerError {
+            protocol: Some("HTTP".to_string()),
+            error_code,
+            description: err.to_string(),
+        })
+    }
+}
+
+pub trait WireFormat: Sized {
+    fn encode(&self) -> Result<Vec<u8>, CommandError>;
+    fn decode(data: &[u8]) -> Result<Self, CommandError>;
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Json<T>(pub T);
+
+impl<T: Serialize + DeserializeOwned> WireFormat for Json<T> {
+    fn encode(&self) -> Result<Vec<u8>, CommandError> {
+        serde_json::to_vec(&self.0).map_err(|e| {
+            CommandError::SerializationError(InnerError {
+                protocol: None,
+                error_code: 0,
+                description: e.to_string(),
+            })
+        })
+    }
+
+    fn decode(data: &[u8]) -> Result<Self, CommandError> {
+        serde_json::from_slice(data)
+            .map(|inner| Self(inner))
+            .map_err(|e| CommandError::from_deserialization_error(e))
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct Postcard<T, const N: usize = 1024>(pub T);
+
+impl<T: Serialize + DeserializeOwned, const N: usize> WireFormat for Postcard<T, N> {
+    fn encode(&self) -> Result<Vec<u8>, CommandError> {
+        Ok(postcard::to_vec::<T, { N }>(&self.0)
+            .map_err(|e| CommandError::from_serialization_error(e))?
+            .as_slice()
+            .to_vec())
+    }
+
+    fn decode(data: &[u8]) -> Result<Self, CommandError> {
+        postcard::from_bytes(data)
+            .map(|inner| Self(inner))
+            .map_err(|e| CommandError::from_deserialization_error(e))
+    }
+}
+
+#[async_trait::async_trait]
+pub trait TransportClient<RT: ResourceType + 'static, MT: ModeType + 'static, P: Payload> {
+    type Format: WireFormat;
+    async fn send(&self, command: Command<RT, MT, P>) -> Result<P::Output, CommandError>;
+}
+
+#[cfg(feature = "api")]
+#[async_trait::async_trait]
+impl<RT: ResourceType + 'static, MT: ModeType + 'static, P: Payload + std::marker::Send>
+    TransportClient<RT, MT, P> for reqwest::Client
+{
+    type Format = Json<Command<RT, MT, P>>;
+    async fn send(&self, command: Command<RT, MT, P>) -> Result<P::Output, CommandError> {
+        let request = match &Command::<RT, MT, P>::operation().mode {
+            ModeEnum::Create => self.request(reqwest::Method::POST, command.route()?),
+            ModeEnum::List => self.request(reqwest::Method::GET, command.route()?),
+            ModeEnum::Get => self.request(reqwest::Method::GET, command.route()?),
+            ModeEnum::Update => self.request(reqwest::Method::PUT, command.route()?),
+            ModeEnum::Delete => self.request(reqwest::Method::DELETE, command.route()?),
+        };
+        let response = request.send().await.map_err(|e| {
+            CommandError::TransportError(InnerError {
+                protocol: Some("HTTP".to_string()),
+                error_code: 0,
+                description: e.to_string(),
+            })
+        })?;
+        let json = response
+            .json::<P::Output>()
+            .await
+            .map_err(|e| CommandError::from_deserialization_error(e))?;
+        Ok(json)
+    }
+}
+
+#[cfg(feature = "api")]
+#[async_trait::async_trait]
+impl<RT: ResourceType + 'static, MT: ModeType + 'static, P: Payload + std::marker::Send>
+    TransportClient<RT, MT, P> for Configuration
+{
+    type Format = Json<Command<RT, MT, P>>;
+    async fn send(&self, command: Command<RT, MT, P>) -> Result<P::Output, CommandError> {
+        let request = match &Command::<RT, MT, P>::operation().mode {
+            ModeEnum::Create => self.request(reqwest::Method::POST, command.route()?),
+            ModeEnum::List => self.request(reqwest::Method::GET, command.route()?),
+            ModeEnum::Get => self.request(reqwest::Method::GET, command.route()?),
+            ModeEnum::Update => self.request(reqwest::Method::PUT, command.route()?),
+            ModeEnum::Delete => self.request(reqwest::Method::DELETE, command.route()?),
+        };
+        self.execute(request).await.map_err(|e| {
+            CommandError::TransportError(InnerError {
+                protocol: Some("HTTP".to_string()),
+                error_code: 0,
+                description: e.to_string(),
+            })
+        })
+    }
+}
+
+pub trait TransportServer<RT: ResourceType + 'static, MT: ModeType + 'static, P: Payload> {
+    type CommandType;
+    type Format: WireFormat;
+    async fn handle(&self, command: Self::CommandType) -> Result<P, CommandError>;
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Hash)]
@@ -90,18 +262,19 @@ impl TryFrom<u8> for ModeEnum {
 // Generic Marker Traits & ZSTs
 // ==========================================
 
-pub trait ResourceType {
+pub trait ResourceType: std::marker::Send {
     const RESOURCE: ResourceEnum;
     fn route() -> &'static str;
 }
 
-pub trait ModeType {
+pub trait ModeType: std::marker::Send {
     const MODE: ModeEnum;
     fn route() -> &'static str;
 }
 
 // Resource Markers
-struct Device;
+#[doc(hidden)]
+pub struct Device;
 impl ResourceType for Device {
     const RESOURCE: ResourceEnum = ResourceEnum::Device;
     fn route() -> &'static str {
@@ -126,7 +299,8 @@ impl ModeType for Create {
     }
 }
 
-struct List;
+#[doc(hidden)]
+pub struct List;
 impl ModeType for List {
     const MODE: ModeEnum = ModeEnum::List;
     fn route() -> &'static str {
@@ -162,8 +336,8 @@ impl ModeType for Delete {
 // Payload & Command Structs
 // ==========================================
 
-pub trait Payload: Serialize + for<'de> Deserialize<'de> {
-    type Output;
+pub trait Payload: Serialize + for<'de> Deserialize<'de> + 'static + std::marker::Send {
+    type Output: for<'de> Deserialize<'de> + 'static;
     fn parent_id(&self) -> Option<Uuid> {
         None
     }
@@ -212,10 +386,17 @@ impl<R: ResourceType, M: ModeType, P: Payload> Command<R, M, P> {
             );
         Ok(Url::parse(&route)?)
     }
+}
 
-    pub fn run(self) -> Result<P::Output, CommandError> {
-        // Dispatch / execution hook
-        todo!()
+impl<R: ResourceType + 'static, M: ModeType + 'static, P: Payload> Command<R, M, P> {
+    pub async fn run(
+        self,
+        client: &impl TransportClient<R, M, P>,
+    ) -> Result<P::Output, CommandError>
+    where
+        for<'de> P::Output: Deserialize<'de> + 'static,
+    {
+        client.send(self).await
     }
 }
 
@@ -223,9 +404,27 @@ impl<R: ResourceType, M: ModeType, P: Payload> Command<R, M, P> {
 // Example Usage & Type Aliases
 // ==========================================
 
+#[doc(hidden)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
-struct ListDevicesPayload {
+pub struct ListDevicesPayload {
     pub group: Option<Uuid>,
+}
+
+pub struct ListPayload<O: Deserialize<'static>> {
+    pub parent: Option<Uuid>,
+    output: std::marker::PhantomData<O>,
+}
+
+impl From<Option<Uuid>> for ListDevicesPayload {
+    fn from(group: Option<Uuid>) -> Self {
+        Self { group }
+    }
+}
+
+impl From<Uuid> for ListDevicesPayload {
+    fn from(group: Uuid) -> Self {
+        Self { group: Some(group) }
+    }
 }
 
 impl Payload for ListDevicesPayload {
@@ -236,4 +435,4 @@ impl Payload for ListDevicesPayload {
 }
 
 /// Type alias completely determining the operation statically
-pub type ListDevicesCommand = Command<Device, List, ListDevicesPayload>;
+pub type ListDevices = Command<Device, List, ListDevicesPayload>;
