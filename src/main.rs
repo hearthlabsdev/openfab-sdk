@@ -330,6 +330,7 @@ fn parse_key_value(s: &str) -> Result<KeyValueArg, String> {
 #[cfg(feature = "api")]
 #[tokio::main]
 async fn main() {
+    env_logger::init();
     let cli = Cli::from_args();
 
     for arg in &cli.args {

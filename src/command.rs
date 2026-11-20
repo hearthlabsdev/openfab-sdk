@@ -135,12 +135,37 @@ impl<RT: ResourceType + 'static, MT: ModeType + 'static, P: Payload + std::marke
 {
     type Format = Json<Command<RT, MT, P>>;
     async fn send(&self, command: Command<RT, MT, P>) -> Result<P::Output, CommandError> {
+        let base = Url::parse("http://localhost").map_err(|e| CommandError::TransportError(InnerError {
+            protocol: Some("HTTP".to_string()),
+            error_code: 0,
+            description: e.to_string(),
+        }))?;
         let request = match &Command::<RT, MT, P>::operation().mode {
-            ModeEnum::Create => self.request(reqwest::Method::POST, command.route()?),
-            ModeEnum::List => self.request(reqwest::Method::GET, command.route()?),
-            ModeEnum::Get => self.request(reqwest::Method::GET, command.route()?),
-            ModeEnum::Update => self.request(reqwest::Method::PUT, command.route()?),
-            ModeEnum::Delete => self.request(reqwest::Method::DELETE, command.route()?),
+            ModeEnum::Create => {
+                let url = command.route(&base)?;
+                log::info!("Sending POST request to URL: {}", url);
+                self.request(reqwest::Method::POST, url)
+            },
+            ModeEnum::List => {
+                let url = command.route(&base)?;
+                log::info!("Sending GET request to URL: {}", url);
+                self.request(reqwest::Method::GET, url)
+            },
+            ModeEnum::Get => {
+                let url = command.route(&base)?;
+                log::info!("Sending GET request to URL: {}", url);
+                self.request(reqwest::Method::GET, url)
+            },
+            ModeEnum::Update => {
+                let url = command.route(&base)?;
+                log::info!("Sending PUT request to URL: {}", url);
+                self.request(reqwest::Method::PUT, url)
+            },
+            ModeEnum::Delete => {
+                let url = command.route(&base)?;
+                log::info!("Sending DELETE request to URL: {}", url);
+                self.request(reqwest::Method::DELETE, url)
+            },
         };
         let response = request.send().await.map_err(|e| {
             CommandError::TransportError(InnerError {
@@ -164,12 +189,38 @@ impl<RT: ResourceType + 'static, MT: ModeType + 'static, P: Payload + std::marke
 {
     type Format = Json<Command<RT, MT, P>>;
     async fn send(&self, command: Command<RT, MT, P>) -> Result<P::Output, CommandError> {
+        let base = Url::parse(&self.base_path).map_err(|e| CommandError::TransportError(InnerError {
+            protocol: Some("HTTP".to_string()),
+            error_code: 0,
+            description: e.to_string(),
+        }))?;
+        log::info!("url: {}", base);
         let request = match &Command::<RT, MT, P>::operation().mode {
-            ModeEnum::Create => self.request(reqwest::Method::POST, command.route()?),
-            ModeEnum::List => self.request(reqwest::Method::GET, command.route()?),
-            ModeEnum::Get => self.request(reqwest::Method::GET, command.route()?),
-            ModeEnum::Update => self.request(reqwest::Method::PUT, command.route()?),
-            ModeEnum::Delete => self.request(reqwest::Method::DELETE, command.route()?),
+            ModeEnum::Create => {
+                let url = command.route(&base)?;
+                log::info!("Sending POST request to URL: {}", url);
+                self.request(reqwest::Method::POST, url)
+            },
+            ModeEnum::List => {
+                let url = command.route(&base)?;
+                log::info!("Sending GET request to URL: {}", url);
+                self.request(reqwest::Method::GET, url)
+            },
+            ModeEnum::Get => {
+                let url = command.route(&base)?;
+                log::info!("Sending GET request to URL: {}", url);
+                self.request(reqwest::Method::GET, url)
+            },
+            ModeEnum::Update => {
+                let url = command.route(&base)?;
+                log::info!("Sending PUT request to URL: {}", url);
+                self.request(reqwest::Method::PUT, url)
+            },
+            ModeEnum::Delete => {
+                let url = command.route(&base)?;
+                log::info!("Sending DELETE request to URL: {}", url);
+                self.request(reqwest::Method::DELETE, url)
+            },
         };
         self.execute(request).await.map_err(|e| {
             CommandError::TransportError(InnerError {
@@ -365,26 +416,32 @@ impl<R: ResourceType, M: ModeType, P: Payload> Command<R, M, P> {
         Operation::new(R::RESOURCE, M::MODE)
     }
 
-    pub fn route(&self) -> Result<Url, CommandError> {
-        let base_route = format!("{}{}", R::route(), M::route());
-        let route = base_route
-            .replace(
+    pub fn route(&self, base: &Url) -> Result<Url, CommandError> {
+        let base_route = format!("/api/{}{}", R::route(), M::route());
+        log::info!("base_route: {}", base_route);
+        let route = match base_route.contains("<uid>") {
+            true => base_route.replace(
                 "<uid>",
                 &self
                     .payload
                     .unique_id()
                     .ok_or(CommandError::MissingUniqueId)?
                     .to_string(),
-            )
-            .replace(
+            ),
+            false => base_route,
+        };
+        let route = match route.contains("<pid>") {
+            true => route.replace(
                 "<pid>",
                 &self
                     .payload
                     .parent_id()
                     .ok_or(CommandError::MissingParentId)?
                     .to_string(),
-            );
-        Ok(Url::parse(&route)?)
+            ),
+            false => route,
+        };
+        Ok(base.join(&route)?)
     }
 }
 
