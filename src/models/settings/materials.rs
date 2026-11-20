@@ -67,7 +67,7 @@ pub struct Filament {
     pub name: String,
     pub diameter_tolerance: f64,
     pub density: f64,
-    pub min_primt_temperature: u32,
+    pub min_print_temperature: u32,
     pub max_print_temperature: u32,
     pub min_bed_temperature: u32,
     pub max_bed_temperature: u32,
@@ -115,8 +115,9 @@ pub struct FilamentSize {
 pub struct Store {
     pub uid: Uuid,
     pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub name: String,
-    pub source: MaterialDB,
+
     pub storefront_url: String,
     pub logo_name: String,
     /// country code that this store ships to
@@ -129,9 +130,10 @@ pub struct Store {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
 pub struct PurchaseURL {
+    pub uid: Uuid,
     pub store_id: Uuid,
     pub url: String,
-    pub uid: Uuid,
+    
     pub source_id: Uuid,
     pub source: MaterialDB,
     pub size_id: Uuid,
@@ -143,6 +145,7 @@ pub struct CreateMaterial {
     pub material: String,
     pub material_class: String,
     pub source_id: Uuid,
+    pub source: Option<MaterialDB>,
     pub brand_id: Uuid,
     pub slug: String,
 }
